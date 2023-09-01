@@ -4,14 +4,11 @@
 //
 //  Created by TATIANA VILDANOVA on 30.07.2023.
 //
-
-
 import UIKit
 
-struct AlertModel{
-    var title: String
-    var message: String
-    var buttonText: String
+struct AlertModel {
+    let title: String
+    let message: String
+    let buttonText: String
     var completion: (UIAlertAction) -> Void
 }
-

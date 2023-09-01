@@ -4,11 +4,10 @@
 //
 //  Created by TATIANA VILDANOVA on 03.08.2023.
 //
-
 import Foundation
 
 // MARK: - StatisticServiceImplementation
-
+/// Сервис подсчёта, обработки результатов квиза
 final class StatisticServiceImplementation: StatisticService {
     
     private let userDefaults = UserDefaults.standard
@@ -16,6 +15,7 @@ final class StatisticServiceImplementation: StatisticService {
         case correctQuestions, totalQuestions, accuracy, bestGame, gamesCount
     }
     
+    /// Общее количество верных ответов во всех квизах
     var correctQuestions: Int {
         get {
             guard let correct = userDefaults.object(forKey: Keys.correctQuestions.rawValue) as? Int else {
@@ -28,7 +28,7 @@ final class StatisticServiceImplementation: StatisticService {
         }
     }
     
-    
+    /// Общее количество вопросов во всех квизах
     var totalQuestions: Int {
         get {
             guard let total = userDefaults.object(forKey: Keys.totalQuestions.rawValue) as? Int else {
@@ -72,10 +72,8 @@ final class StatisticServiceImplementation: StatisticService {
             guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue), let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
                 return .init(correct: 0, total: 0, date: Date())
             }
-            
             return record
         }
-        
         set {
             guard let data = try? JSONEncoder().encode(newValue) else {
                 print("Возникла ошибка с JSON-кодированием рекорда игры")
@@ -85,16 +83,15 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
+    
+    /// Сохраняем результаты квиза в UserDefaults
+    
     func store(correct count: Int, total amount: Int) {
-        
         self.gamesCount += 1
-        
         let currentGame = GameRecord(correct: count, total: amount, date: Date())
-        
         if currentGame > bestGame {
             self.bestGame = currentGame
         }
-        
         correctQuestions += count
         totalQuestions += amount
     }
@@ -111,4 +108,5 @@ protocol StatisticService {
     
     func store(correct count: Int, total amount: Int)
 }
+
 

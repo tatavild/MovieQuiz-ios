@@ -4,7 +4,6 @@
 //
 //  Created by TATIANA VILDANOVA on 08.08.2023.
 //
-
 import Foundation
 
 /// JSON-модель данных о фильмах, получаемых с IMDB-сервера
@@ -21,9 +20,7 @@ struct MostPopularMovie: Codable {
     
     var resizedImageURL: URL {
         let urlString = imageURL.absoluteString
-        //  обрезаем лишнюю часть и добавляем модификатор желаемого качества
         let imageUrlString = urlString.components(separatedBy: "._")[0] + "._V0_UX600_.jpg"
-        // пытаемся создать новый адрес, если не получается возвращаем старый
         guard let newURL = URL(string: imageUrlString) else {
             return imageURL
         }
